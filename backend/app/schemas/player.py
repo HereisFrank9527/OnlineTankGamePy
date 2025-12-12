@@ -31,6 +31,8 @@ class PlayerStats(BaseModel):
 
 class PlayerResponse(PlayerBase):
     id: int
+    last_login_at: datetime | None
+    login_count: int
     kills: int
     deaths: int
     wins: int

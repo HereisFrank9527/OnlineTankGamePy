@@ -1,3 +1,4 @@
+from app.schemas.auth import LoginRequest, LoginResponse, RefreshRequest, TokenResponse
 from app.schemas.player import (
     LeaderboardEntry,
     PlayerCreate,
@@ -26,6 +27,10 @@ from app.schemas.tank import (
 )
 
 __all__ = [
+    "LoginRequest",
+    "LoginResponse",
+    "TokenResponse",
+    "RefreshRequest",
     "PlayerCreate",
     "PlayerUpdate",
     "PlayerResponse",

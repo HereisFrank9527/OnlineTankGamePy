@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import get_password_hash, verify_password
@@ -32,13 +34,18 @@ class PlayerService:
     async def get_player_by_username(self, username: str) -> Player | None:
         return await self.repo.get_by_username(username)
 
-    async def authenticate_player(self, username: str, password: str) -> Player | None:
-        player = await self.repo.get_by_username(username)
+    async def authenticate_player(self, identifier: str, password: str) -> Player | None:
+        player = await self.repo.get_by_username_or_email(identifier)
         if not player:
             return None
         if not verify_password(password, player.hashed_password):
             return None
         return player
+
+    async def record_login(self, player: Player) -> Player:
+        player.last_login_at = datetime.utcnow()
+        player.login_count += 1
+        return await self.repo.update(player)
 
     async def update_player(self, player: Player, player_data: PlayerUpdate) -> Player:
         if player_data.email:
