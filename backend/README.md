@@ -184,6 +184,69 @@ Once the server is running, visit:
 - `POST /logout` - User logout
 - `GET /me` - Get current user info
 
+#### Request/Response Examples
+
+**Register**
+
+`POST /api/v1/auth/register`
+
+Request body:
+```json
+{
+  "username": "tank_master",
+  "email": "tank_master@example.com",
+  "password": "password123"
+}
+```
+
+Response (`201`):
+```json
+{
+  "id": 1,
+  "username": "tank_master",
+  "email": "tank_master@example.com",
+  "last_login_at": null,
+  "login_count": 0,
+  "kills": 0,
+  "deaths": 0,
+  "wins": 0,
+  "losses": 0,
+  "games_played": 0,
+  "created_at": "2025-01-01T00:00:00Z",
+  "updated_at": "2025-01-01T00:00:00Z"
+}
+```
+
+**Login**
+
+`POST /api/v1/auth/login`
+
+Request body:
+```json
+{
+  "username": "tank_master",
+  "password": "password123"
+}
+```
+
+Response (`200`):
+```json
+{
+  "access_token": "<jwt>",
+  "refresh_token": "<jwt>",
+  "token_type": "bearer"
+}
+```
+
+**Get Profile**
+
+`GET /api/v1/auth/me`
+
+Request header:
+```
+Authorization: Bearer <access_token>
+```
+
 ### Rooms (`/api/v1/rooms`)
 - `GET /` - List all rooms
 - `POST /` - Create new room

@@ -18,21 +18,24 @@ class Player(Base):
     username: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
-    
+
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    login_count: Mapped[int] = mapped_column(Integer, default=0, server_default="0", nullable=False)
+
     kills: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     deaths: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     wins: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     losses: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     games_played: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=datetime.utcnow, nullable=False
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), 
-        default=datetime.utcnow, 
-        onupdate=datetime.utcnow, 
-        nullable=False
+        DateTime(timezone=True),
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+        nullable=False,
     )
 
     room_memberships: Mapped[list["RoomMembership"]] = relationship(

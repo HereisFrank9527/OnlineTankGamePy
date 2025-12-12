@@ -17,6 +17,12 @@ class PlayerRepository(BaseRepository[Player]):
         result = await self.db.execute(select(Player).where(Player.email == email))
         return result.scalar_one_or_none()
 
+    async def get_by_username_or_email(self, identifier: str) -> Player | None:
+        result = await self.db.execute(
+            select(Player).where((Player.username == identifier) | (Player.email == identifier))
+        )
+        return result.scalar_one_or_none()
+
     async def get_leaderboard(
         self, order_by: str = "kills", skip: int = 0, limit: int = 100
     ) -> list[Player]:
